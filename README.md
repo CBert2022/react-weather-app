@@ -10,7 +10,8 @@ A simple Weather App where the User can enter a name of a City and will see depe
 - temperature
 - humidity
 - wind speed
-- weather icon 
+- weather icon
+- error message if input is invalid
 
 ## Built with
 - ReactJS
