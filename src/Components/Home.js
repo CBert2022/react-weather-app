@@ -116,6 +116,14 @@ function Home() {
             </div>
           </div>
         </div>
+        <div className="copyright-mobil">
+          <a
+            href="https://www.flaticon.com/free-icons/weather"
+            title="weather icons"
+          >
+            Weather icons created by iconixar - Flaticon
+          </a>
+        </div>
       </div>
       <div className="copyright">
         <a

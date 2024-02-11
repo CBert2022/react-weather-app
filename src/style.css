@@ -101,3 +101,32 @@
   position: absolute;
   bottom: 10px;
 }
+
+@media (max-width: 500px) {
+  .container {
+    padding: 0;
+  }
+
+  .weather {
+    width: 100%;
+    height: 100vh;
+    padding: 10px 12px 30px;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-evenly;
+    border-radius: 0;
+    margin: 0;
+  }
+
+  .copyright {
+    display: none;
+  }
+
+  .copyright-mobil a {
+    color: white;
+  }
+
+  .search {
+    margin: 0 10px;
+  }
+}
