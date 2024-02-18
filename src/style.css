@@ -102,6 +102,10 @@
   bottom: 10px;
 }
 
+.copyright-mobil {
+  display: none;
+}
+
 @media (max-width: 500px) {
   .container {
     padding: 0;
