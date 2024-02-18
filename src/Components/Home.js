@@ -7,81 +7,116 @@ import Fog from "./assets/fog.png";
 import Snow from "./assets/snowy.png";
 import Humidity from "./assets/weather.png";
 import Wind from "./assets/wind.png";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function Home() {
-  const [data, setData] = useState(
-    {
-      celsius: 10,
-      name: "London",
-      humidity: 10,
-      speed: 2,
-      image: Cloud,
-      feel: 10,
-    },
-    []
-  );
+  const [data, setData] = useState({
+    celsius: 10,
+    name: "Suche Stadt",
+    humidity: 10,
+    speed: 2,
+    image: Cloud,
+    feel: 10,
+  });
+
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
+  // falls geolocation vom user erlaubt:
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(zeigePosition);
+  }, []); // leeres array als abhängigkeit => Effekt wird nur einmalig nach dem ersten rendern ausgeführt
+
+  // koordinaten speicher zur Abfrage der stadt
+  function zeigePosition(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    const apiURL = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=95e1808808fc4f2e2fac242dc555bb96`;
+
+    axios
+      .get(apiURL)
+      .then((res) => {
+        const city = res.data[0].name;
+        // übergabe der ermittelten stadt aus geolocation an fetchData
+        fetchData(city);
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          setError("Invalid City Name");
+        } else {
+          setError("");
+        }
+        // console.log(err);
+      });
+  }
+
+  // definition der fetchData fkt
+  function fetchData(cityName) {
+    const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=95e1808808fc4f2e2fac242dc555bb96&units=metric&lang=de`;
+
+    axios
+      .get(apiURL)
+      .then((res) => {
+        let imagePath = "";
+        // console.log(res.data);
+
+        if (res.data.weather[0].main === "Clouds") {
+          imagePath = Cloud;
+        } else if (res.data.weather[0].main === "Clear") {
+          imagePath = Clear;
+        } else if (res.data.weather[0].main === "Rain") {
+          imagePath = Rain;
+        } else if (res.data.weather[0].main === "Drizzle") {
+          imagePath = Rain;
+        } else if (res.data.weather[0].main === "Mist") {
+          imagePath = Fog;
+        } else if (res.data.weather[0].main === "Snow") {
+          imagePath = Snow;
+        } else if (res.data.weather[0].main === "Thunderstorm") {
+          imagePath = Storm;
+        } else {
+          imagePath = Cloud;
+        }
+
+        setData({
+          ...data, // kopiere vorhandene daten und aktualisiere
+          celsius: res.data.main.temp,
+          name: res.data.name,
+          humidity: res.data.main.humidity,
+          speed: res.data.wind.speed,
+          image: imagePath,
+          feel: res.data.main.feels_like,
+        });
+        setError("");
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          setError("Invalid City Name");
+        } else {
+          setError("");
+        }
+        console.log(err);
+      });
+  }
+
   const handleClick = () => {
     if (name !== "") {
-      const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=95e1808808fc4f2e2fac242dc555bb96&units=metric&lang=de`;
-
-      axios
-        .get(apiURL)
-        .then((res) => {
-          let imagePath = "";
-          console.log(res.data);
-
-          if (res.data.weather[0].main === "Clouds") {
-            imagePath = Cloud;
-          } else if (res.data.weather[0].main === "Clear") {
-            imagePath = Clear;
-          } else if (res.data.weather[0].main === "Rain") {
-            imagePath = Rain;
-          } else if (res.data.weather[0].main === "Drizzle") {
-            imagePath = Rain;
-          } else if (res.data.weather[0].main === "Mist") {
-            imagePath = Fog;
-          } else if (res.data.weather[0].main === "Snow") {
-            imagePath = Snow;
-          } else if (res.data.weather[0].main === "Thunderstorm") {
-            imagePath = Storm;
-          } else {
-            imagePath = Cloud;
-          }
-          setData({
-            ...data, // kopiere vorhandene daten und aktualisiere
-            celsius: res.data.main.temp,
-            name: res.data.name,
-            humidity: res.data.main.humidity,
-            speed: res.data.wind.speed,
-            image: imagePath,
-            feel: res.data.main.feels_like,
-          });
-          setError("");
-        })
-        .catch((err) => {
-          if (err.response.status === 404) {
-            setError("Invalid City Name");
-          } else {
-            setError("");
-          }
-          console.log(err);
-        });
+      fetchData(name);
     }
   };
 
   return (
     <div className="container">
+      <div className="current_lo"></div>
       <div className="weather">
         <div className="search">
           <input
             id="input"
             type="text"
             placeholder="Enter City Name"
+            // update die stadt im name / setname usestate
             onChange={(e) => setName(e.target.value)}
           />
           <button onClick={handleClick}>
