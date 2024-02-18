@@ -11,6 +11,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function Home() {
+  const { REACT_APP_API_KEY } = process.env;
+
   const [data, setData] = useState({
     celsius: 10,
     name: "Suche Stadt",
@@ -33,7 +35,7 @@ function Home() {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
 
-    const apiURL = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=95e1808808fc4f2e2fac242dc555bb96`;
+    const apiURL = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${REACT_APP_API_KEY}`;
 
     axios
       .get(apiURL)
@@ -54,7 +56,7 @@ function Home() {
 
   // definition der fetchData fkt
   function fetchData(cityName) {
-    const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=95e1808808fc4f2e2fac242dc555bb96&units=metric&lang=de`;
+    const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${REACT_APP_API_KEY}&units=metric&lang=de`;
 
     axios
       .get(apiURL)
