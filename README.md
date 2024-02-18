@@ -1,12 +1,13 @@
 # React Weather App
 
 ## Work in progress, next steps:
-- user sees initial weather data regarding on his location
 - CSS for mobil view
+- more detailed data on click
 
 ## Requirements
 A simple Weather App where the User can enter a name of a City and will see depending on information from OpenWeather:
 
+- user sees initial weather data from own geolocation
 - temperature
 - humidity
 - wind speed
