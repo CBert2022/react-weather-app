@@ -1,7 +1,6 @@
 # React Weather App
 
 ## Work in progress, next steps:
-- CSS for mobil view
 - more detailed data on click
 
 ## Requirements
