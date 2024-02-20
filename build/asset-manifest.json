@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/CBert2022/react-weather-app/static/css/main.25cd12d5.css",
+    "main.js": "/CBert2022/react-weather-app/static/js/main.86267b5a.js",
+    "static/media/rainy-day.png": "/CBert2022/react-weather-app/static/media/rainy-day.7610299be6da6fba0d64.png",
+    "static/media/weather.png": "/CBert2022/react-weather-app/static/media/weather.da5fa89930d7bc317866.png",
+    "static/media/snowy.png": "/CBert2022/react-weather-app/static/media/snowy.6aab2972b99cce9497e0.png",
+    "static/media/storm.png": "/CBert2022/react-weather-app/static/media/storm.924efdf8249919605183.png",
+    "static/media/wind.png": "/CBert2022/react-weather-app/static/media/wind.2c0dd4e943186a115f3a.png",
+    "static/media/sun.png": "/CBert2022/react-weather-app/static/media/sun.0b43f5c98c23439dcf48.png",
+    "index.html": "/CBert2022/react-weather-app/index.html",
+    "main.25cd12d5.css.map": "/CBert2022/react-weather-app/static/css/main.25cd12d5.css.map",
+    "main.86267b5a.js.map": "/CBert2022/react-weather-app/static/js/main.86267b5a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.25cd12d5.css",
+    "static/js/main.86267b5a.js"
+  ]
+}
