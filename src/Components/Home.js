@@ -35,7 +35,7 @@ function Home() {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
 
-    const apiURL = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${REACT_APP_API_KEY}`;
+    const apiURL = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&appid=${REACT_APP_API_KEY}`;
 
     axios
       .get(apiURL)
