@@ -17,7 +17,6 @@
   padding: 30px;
   border-radius: 10px;
   background: linear-gradient(130deg, rgb(86, 86, 235), rgb(5, 5, 199));
-  /* background: linear-gradient(130deg, rgb(0, 0, 30), rgb(0, 0, 70)); */
   margin: 0 auto;
   text-align: center;
   color: white;
@@ -121,13 +120,12 @@
 
   .weather {
     width: 100%;
-    height: 100vh;
-    padding: 10px 12px 30px;
-    display: flex;
-    flex-direction: column-reverse;
+    height: fit-content;
+    padding: 20px 12px 30px;
+    /* display: flex; */
+    /* flex-direction: column-reverse; */
     justify-content: space-evenly;
     border-radius: 0;
-    margin: 0;
   }
 
   .copyright {
@@ -135,7 +133,12 @@
   }
 
   .copyright-mobil a {
-    color: white;
+    color: #86ceff;
+  }
+
+  .copyright-mobil {
+    display: block;
+    padding: 10px 0;
   }
 
   .search {

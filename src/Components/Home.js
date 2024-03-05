@@ -9,15 +9,18 @@ import Humidity from "./assets/weather.png";
 import Wind from "./assets/wind.png";
 import Stars from "./assets/moon.png";
 import Cloudy from "./assets/cloudy.png";
+import Feel from "./assets/thermometer.png";
+// import More from "./assets/ellipsis.png";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+// import Details from "./Details";
 
 function Home() {
   const { REACT_APP_API_KEY } = process.env;
 
   const [data, setData] = useState({
     celsius: 10,
-    name: "Suche Stadt",
+    name: "Suche Stadt...",
     humidity: 10,
     speed: 2,
     image: Cloud,
@@ -34,7 +37,7 @@ function Home() {
   // falls geolocation vom user erlaubt:
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(zeigePosition);
-  }, []); // leeres array als abhängigkeit => Effekt wird nur einmalig nach dem ersten rendern ausgeführt
+  }, [isNight]); //  ins array als abhängigkeit => Effekt wird erneut gerenderd wenn isNight sich ändert
 
   // koordinaten speichern zur Abfrage der stadt
   function zeigePosition(position) {
@@ -160,7 +163,7 @@ function Home() {
   return (
     <div className="container">
       <div className="current_lo"></div>
-      <div className="weather">
+      <div id="night_shift" className="weather">
         <div className="search">
           <input
             id="input"
@@ -184,11 +187,11 @@ function Home() {
           <div className="details">
             <div className="col">
               <div>
-                <img src={Humidity} alt="humidity" />
+                <img src={Feel} alt="humidity" />
               </div>
               <div>
-                <p>{Math.round(data.humidity)}%</p>
-                <p>Humidity</p>
+                <p>{Math.round(data.feel)}°C</p>
+                <p>Gefühlt wie</p>
               </div>
             </div>
             <div className="col">
@@ -201,6 +204,26 @@ function Home() {
               </div>
             </div>
           </div>
+          <div className="details">
+            <div className="col">
+              <div>
+                <img src={Humidity} alt="feels like" />
+              </div>
+              <div>
+                <p>{Math.round(data.humidity)}%</p>
+                <p>Luftfeuchtigkeit</p>
+              </div>
+            </div>
+            {/* <div className="col">
+              <div>
+                <img src={More} alt="wind" />
+              </div>
+              <div>
+                <p>More </p>
+              </div>
+            </div> */}
+          </div>
+          {/* <Details /> */}
         </div>
         <div className="copyright-mobil">
           <a
