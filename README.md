@@ -12,6 +12,7 @@ A simple Weather App where the User can enter a name of a City and will see depe
 - wind speed
 - weather icon
 - error message if input is invalid
+- background & icons change according to determined day or night based on sunrise data
 
 ## Built with
 - ReactJS
