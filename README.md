@@ -19,6 +19,8 @@ A simple Weather App where the User can enter a name of a City and will see depe
 - Axios
 - API https://openweathermap.org/
 
+## Live: https://cbert2022.github.io/react-weather-app/
+
 ## Copyright Icons
 Weather icons created by iconixar - Flaticon
 https://www.flaticon.com/free-icons/weather
