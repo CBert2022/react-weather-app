@@ -24,6 +24,7 @@ function Home() {
     feel: 10,
     sunrise: 0,
     sunset: 0,
+    descripiton: "",
   });
 
   const [name, setName] = useState("");
@@ -67,7 +68,7 @@ function Home() {
       .get(apiURL)
       .then((res) => {
         let imagePath = "";
-        //console.log(res.data);
+        console.log(res.data);
 
         // Ermittlung ob Tag oder Nacht anhand der gelieferten Zeiten aus der API
         function dayOrNight() {
@@ -136,6 +137,7 @@ function Home() {
           feel: res.data.main.feels_like,
           sunrise: res.data.sys.sunrise,
           sunset: res.data.sys.sunset,
+          descripiton: res.data.weather[0].description,
         });
         setError("");
       })
@@ -178,6 +180,7 @@ function Home() {
           <img src={data.image} alt="cloud" />
           <h1>{Math.round(data.celsius)}°C</h1>
           <h2>{data.name}</h2>
+          <p className="description">{data.descripiton}</p>
           <div className="details">
             <div className="col">
               <div>
