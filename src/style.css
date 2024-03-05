@@ -17,9 +17,14 @@
   padding: 30px;
   border-radius: 10px;
   background: linear-gradient(130deg, rgb(86, 86, 235), rgb(5, 5, 199));
+  /* background: linear-gradient(130deg, rgb(0, 0, 30), rgb(0, 0, 70)); */
   margin: 0 auto;
   text-align: center;
   color: white;
+}
+
+.night {
+  background: linear-gradient(130deg, rgb(0, 0, 30), rgb(0, 0, 70));
 }
 
 .search {

@@ -7,6 +7,8 @@ import Fog from "./assets/fog.png";
 import Snow from "./assets/snowy.png";
 import Humidity from "./assets/weather.png";
 import Wind from "./assets/wind.png";
+import Stars from "./assets/moon.png";
+import Cloudy from "./assets/cloudy.png";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -20,17 +22,20 @@ function Home() {
     speed: 2,
     image: Cloud,
     feel: 10,
+    sunrise: 0,
+    sunset: 0,
   });
 
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+  const [isNight, setIsNight] = useState(false);
 
   // falls geolocation vom user erlaubt:
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(zeigePosition);
   }, []); // leeres array als abhängigkeit => Effekt wird nur einmalig nach dem ersten rendern ausgeführt
 
-  // koordinaten speicher zur Abfrage der stadt
+  // koordinaten speichern zur Abfrage der stadt
   function zeigePosition(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
@@ -62,24 +67,63 @@ function Home() {
       .get(apiURL)
       .then((res) => {
         let imagePath = "";
-        // console.log(res.data);
+        //console.log(res.data);
 
-        if (res.data.weather[0].main === "Clouds") {
-          imagePath = Cloud;
-        } else if (res.data.weather[0].main === "Clear") {
-          imagePath = Clear;
-        } else if (res.data.weather[0].main === "Rain") {
-          imagePath = Rain;
-        } else if (res.data.weather[0].main === "Drizzle") {
-          imagePath = Rain;
-        } else if (res.data.weather[0].main === "Mist") {
-          imagePath = Fog;
-        } else if (res.data.weather[0].main === "Snow") {
-          imagePath = Snow;
-        } else if (res.data.weather[0].main === "Thunderstorm") {
-          imagePath = Storm;
+        // Ermittlung ob Tag oder Nacht anhand der gelieferten Zeiten aus der API
+        function dayOrNight() {
+          let sunset = res.data.sys.sunset;
+          let currentTime = Math.floor(Date.now() / 1000);
+          if (currentTime >= sunset) {
+            console.log("Die Sonne ist bereits untergegangen.");
+            setIsNight(true); // Setze den Nachtstatus auf true
+          } else {
+            console.log("Die Sonne ist noch nicht untergegangen.");
+            setIsNight(false); // Setze den Nachtstatus auf false
+          }
+        }
+
+        dayOrNight();
+
+        if (isNight) {
+          document.querySelector(".weather").classList.add("night");
+          //hintergrundfarbe in dunkel ändern
+          if (res.data.weather[0].main === "Clouds") {
+            imagePath = Cloud;
+          } else if (res.data.weather[0].main === "Clear") {
+            imagePath = Stars;
+          } else if (res.data.weather[0].main === "Rain") {
+            imagePath = Rain;
+          } else if (res.data.weather[0].main === "Drizzle") {
+            imagePath = Rain;
+          } else if (res.data.weather[0].main === "Mist") {
+            imagePath = Fog;
+          } else if (res.data.weather[0].main === "Snow") {
+            imagePath = Snow;
+          } else if (res.data.weather[0].main === "Thunderstorm") {
+            imagePath = Storm;
+          } else {
+            imagePath = Cloudy;
+          }
         } else {
-          imagePath = Cloud;
+          // Tagsüber, behalte den Hintergrund und Bilder bei oder ändere sie entsprechend
+          document.querySelector(".weather").classList.remove("night");
+          if (res.data.weather[0].main === "Clouds") {
+            imagePath = Cloud;
+          } else if (res.data.weather[0].main === "Clear") {
+            imagePath = Clear;
+          } else if (res.data.weather[0].main === "Rain") {
+            imagePath = Rain;
+          } else if (res.data.weather[0].main === "Drizzle") {
+            imagePath = Rain;
+          } else if (res.data.weather[0].main === "Mist") {
+            imagePath = Fog;
+          } else if (res.data.weather[0].main === "Snow") {
+            imagePath = Snow;
+          } else if (res.data.weather[0].main === "Thunderstorm") {
+            imagePath = Storm;
+          } else {
+            imagePath = Cloudy;
+          }
         }
 
         setData({
@@ -90,6 +134,8 @@ function Home() {
           speed: res.data.wind.speed,
           image: imagePath,
           feel: res.data.main.feels_like,
+          sunrise: res.data.sys.sunrise,
+          sunset: res.data.sys.sunset,
         });
         setError("");
       })
