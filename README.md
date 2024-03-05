@@ -29,5 +29,7 @@ https://www.flaticon.com/free-icons/weather
 ## Screenshot
 ![Bildschirm­foto 2024-02-11 um 21 57 13](https://github.com/CBert2022/react-weather-app/assets/110911202/58608368-84e6-464c-8c66-b2cccae32f14)
 
+![Bildschirm­foto 2024-03-05 um 20 47 50](https://github.com/CBert2022/react-weather-app/assets/110911202/979d1355-713f-4597-b1bf-932c7d3aea98)
+
 
 
