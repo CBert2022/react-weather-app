@@ -1,4 +1,3 @@
-// Details.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cloud from "./assets/cloud.png";
@@ -9,7 +8,7 @@ import Fog from "./assets/fog.png";
 import Snow from "./assets/snowy.png";
 import Cloudy from "./assets/cloudy.png";
 
-function Details({ cityName, minTemp, maxTemp, image }) {
+function Details({ cityName }) {
   // Zugriff auf die API-Schlüssel aus den Umgebungsvariablen
   const { REACT_APP_API_KEY } = process.env;
 
@@ -135,14 +134,8 @@ function Details({ cityName, minTemp, maxTemp, image }) {
       <div className="container_temp_infos">
         <h3>5-Tage-Vorhersage</h3>
         <div className="container_forecast">
-          <div className="forecast_row">
-            <p className="forecast_day">Heute</p>
-            <img className="forecast_icon" src={image} alt="wetter icon" />
-            <p className="minTemp">{Math.round(minTemp)}°C</p>
-            <p>{Math.round(maxTemp)}°C</p>
-          </div>
           {nextDaysWeather.map((day, index) => (
-            <div key={index} className="devider_forcast">
+            <div key={index}>
               <div className="forecast_row">
                 <p>{day.name}</p>
                 <img
@@ -153,6 +146,9 @@ function Details({ cityName, minTemp, maxTemp, image }) {
                 <p className="minTemp">{Math.round(day.minTemp)}°C</p>
                 <p>{Math.round(day.maxTemp)}°C</p>
               </div>
+              {index !== nextDaysWeather.length - 1 && (
+                <div className="devider_forcast"></div>
+              )}
             </div>
           ))}
         </div>

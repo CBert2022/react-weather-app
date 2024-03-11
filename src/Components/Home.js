@@ -14,9 +14,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Details from "./Details";
 
-// Definition der Home-Komponente
 function Home() {
-  // Zugriff auf die API-Schlüssel aus den Umgebungsvariablen
   const { REACT_APP_API_KEY } = process.env;
 
   // Zustände für die Wetterdaten, die Eingabestadt und Fehlermeldungen
@@ -52,7 +50,7 @@ function Home() {
   // Effekt, um die Geolokalisierung basierend auf isNight zu aktualisieren
   useEffect(() => {
     if (cityFetched) {
-      fetchData(data.name); // Hier rufen wir die API für die Stadt an, die bereits abgerufen wurde
+      fetchData(data.name); //  API Aufruf für die Stadt, die bereits abgerufen wurde
     }
   }, [isNight]);
 
@@ -67,7 +65,7 @@ function Home() {
       .get(apiURL)
       .then((res) => {
         const cityName = res.data[0].name;
-        setCityName(cityName); // Aktualisierung des Stadt-Zustands
+        setCityName(cityName);
         fetchData(cityName);
         setCityFetched(true);
       })
@@ -235,12 +233,7 @@ function Home() {
                 </div>
               </div>
             </div>
-            <Details
-              cityName={cityName}
-              minTemp={data.min_temp}
-              maxTemp={data.max_temp}
-              image={data.image}
-            />
+            <Details cityName={cityName} />
           </div>
           <div className="copyright-mobil">
             <a
@@ -256,5 +249,4 @@ function Home() {
   );
 }
 
-// Export der Home-Komponente als Standard
 export default Home;
