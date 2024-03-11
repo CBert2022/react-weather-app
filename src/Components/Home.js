@@ -12,6 +12,7 @@ import Cloudy from "./assets/cloudy.png";
 import Feel from "./assets/thermometer.png";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Details from "./Details";
 
 // Definition der Home-Komponente
 function Home() {
@@ -29,6 +30,8 @@ function Home() {
     sunrise: 0,
     sunset: 0,
     description: "",
+    min_temp: "",
+    max_temp: "",
   });
   const [name, setName] = useState("");
   const [error, setError] = useState("");
@@ -36,6 +39,8 @@ function Home() {
   const [isNight, setIsNight] = useState(false);
   // Zustand, um zu überprüfen, ob bereits eine Stadt abgerufen wurde
   const [cityFetched, setCityFetched] = useState(false);
+  // Neuer Zustand für die Stadt
+  const [cityName, setCityName] = useState("");
 
   // Effekt, um die Geolokalisierung auszuführen, wenn keine Stadt abgerufen wurde
   useEffect(() => {
@@ -43,12 +48,6 @@ function Home() {
       navigator.geolocation.getCurrentPosition(zeigePosition);
     }
   }, [name, cityFetched]);
-
-  // // Effekt, um die Geolokalisierung basierend auf isNight zu aktualisieren
-  // useEffect(() => {
-  //   navigator.geolocation.getCurrentPosition(zeigePosition);
-  //   fetchData(data.name); // Hier rufen wir die API für die Stadt an, die bereits abgerufen wurde
-  // }, [isNight]);
 
   // Effekt, um die Geolokalisierung basierend auf isNight zu aktualisieren
   useEffect(() => {
@@ -67,8 +66,9 @@ function Home() {
     axios
       .get(apiURL)
       .then((res) => {
-        const city = res.data[0].name;
-        fetchData(city);
+        const cityName = res.data[0].name;
+        setCityName(cityName); // Aktualisierung des Stadt-Zustands
+        fetchData(cityName);
         setCityFetched(true);
       })
       .catch((err) => {
@@ -87,6 +87,7 @@ function Home() {
     axios
       .get(apiURL)
       .then((res) => {
+        //console.log(res.data);
         let imagePath = "";
 
         // Bestimmung von Tag oder Nacht
@@ -148,6 +149,8 @@ function Home() {
           sunrise: res.data.sys.sunrise,
           sunset: res.data.sys.sunset,
           description: res.data.weather[0].description,
+          min_temp: res.data.main.temp_min,
+          max_temp: res.data.main.temp_max,
         });
         setError("");
       })
@@ -170,78 +173,86 @@ function Home() {
 
   // Rückgabe der JSX-Struktur der Home-Komponente
   return (
-    <div className="container">
-      <div className="current_lo"></div>
-      <div id="night_shift" className="weather">
-        <div className="search">
-          <input
-            id="input"
-            type="text"
-            placeholder="Enter City Name"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <button onClick={handleClick}>
-            <i className="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </div>
-        <div className="winfo">
-          <div className="error">
-            <p>{error}</p>
+    <>
+      <div className="container">
+        <div className="current_lo"></div>
+        <div id="night_shift" className="weather">
+          <div className="search">
+            <input
+              id="input"
+              type="text"
+              placeholder="Enter City Name"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <button onClick={handleClick}>
+              <i className="fa-solid fa-magnifying-glass"></i>
+            </button>
           </div>
-          <img src={data.image} alt="cloud" />
-          <h1>{Math.round(data.celsius)}°C</h1>
-          <h2>{data.name}</h2>
-          <p className="description">{data.description}</p>
-          <div className="details">
-            <div className="col">
-              <div>
-                <img src={Feel} alt="humidity" />
+          <div className="winfo">
+            <div className="error">
+              <p>{error}</p>
+            </div>
+            <img className="main_img" src={data.image} alt="cloud" />
+            <h1>{Math.round(data.celsius)}°C</h1>
+            <h2>{data.name}</h2>
+            <p className="description">{data.description}</p>
+            <div className="container_temp_infos">
+              <div className="details">
+                <div className="col">
+                  <div>
+                    <img src={Feel} alt="humidity" />
+                  </div>
+                  <div>
+                    <p>{Math.round(data.feel)}°C</p>
+                    <p>Gefühlt wie</p>
+                  </div>
+                </div>
+                <div className="col">
+                  <div className="temps">
+                    <p className="minTemp">min {Math.round(data.min_temp)}°C</p>{" "}
+                    <p>max {Math.round(data.max_temp)}°C</p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <p>{Math.round(data.feel)}°C</p>
-                <p>Gefühlt wie</p>
+              <div className="details">
+                <div className="col">
+                  <div>
+                    <img src={Humidity} alt="feels like" />
+                  </div>
+                  <div>
+                    <p>{Math.round(data.humidity)}%</p>
+                    <p>Luftfeuchtigkeit</p>
+                  </div>
+                </div>
+                <div className="col">
+                  <div>
+                    <img src={Wind} alt="wind" />
+                  </div>
+                  <div>
+                    <p>{Math.round(data.speed)}km/h</p>
+                    <p>Wind</p>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="col">
-              <div>
-                <img src={Wind} alt="wind" />
-              </div>
-              <div>
-                <p>{Math.round(data.speed)}km/h</p>
-                <p>Wind</p>
-              </div>
-            </div>
+            <Details
+              cityName={cityName}
+              minTemp={data.min_temp}
+              maxTemp={data.max_temp}
+              image={data.image}
+            />
           </div>
-          <div className="details">
-            <div className="col">
-              <div>
-                <img src={Humidity} alt="feels like" />
-              </div>
-              <div>
-                <p>{Math.round(data.humidity)}%</p>
-                <p>Luftfeuchtigkeit</p>
-              </div>
-            </div>
+          <div className="copyright-mobil">
+            <a
+              href="https://www.flaticon.com/free-icons/weather"
+              title="weather icons"
+            >
+              Weather icons created by iconixar - Flaticon
+            </a>
           </div>
-        </div>
-        <div className="copyright-mobil">
-          <a
-            href="https://www.flaticon.com/free-icons/weather"
-            title="weather icons"
-          >
-            Weather icons created by iconixar - Flaticon
-          </a>
         </div>
       </div>
-      <div className="copyright">
-        <a
-          href="https://www.flaticon.com/free-icons/weather"
-          title="weather icons"
-        >
-          Weather icons created by iconixar - Flaticon
-        </a>
-      </div>
-    </div>
+    </>
   );
 }
 
