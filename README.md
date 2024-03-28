@@ -1,9 +1,5 @@
 # React Weather App
 
-## Work in progress, next steps:
-- Promise for 2. API call
-- Spinner
-
 ## Requirements
 A simple Weather App where the User can enter a name of a City and will see depending on information from OpenWeather:
 
