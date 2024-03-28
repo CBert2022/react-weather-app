@@ -55,7 +55,7 @@ function Home() {
       .then((res) => {
         const cityName = res.data[0].name;
         setCityName(cityName);
-        fetchData(cityName); // aus geolocation
+        fetchData(cityName);
         setCityFetched(true);
       })
       .catch((err) => {

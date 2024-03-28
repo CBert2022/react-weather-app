@@ -27,81 +27,84 @@ function Details({ cityName }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${REACT_APP_API_KEY}&units=metric&lang=de`
-        );
-        const weatherData = response.data.list;
-        // console.log("details API: " + cityName);
+        if (cityName) {
+          // Nur ausführen, wenn cityName nicht leer ist
+          const response = await axios.get(
+            `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${REACT_APP_API_KEY}&units=metric&lang=de`
+          );
+          const weatherData = response.data.list;
+          // console.log("details API: " + cityName);
 
-        // Durchlaufen der Wetterdaten und Sammeln nach Tag
-        for (let i = 0; i < weatherData.length; i++) {
-          let apiDate = new Date(weatherData[i].dt_txt).getDay();
-          let minTempOfDay = weatherData[i].main.temp_min;
-          let maxTempOfDay = weatherData[i].main.temp_max;
-          let iconOfDay = weatherData[i].weather[0].main;
+          // Durchlaufen der Wetterdaten und Sammeln nach Tag
+          for (let i = 0; i < weatherData.length; i++) {
+            let apiDate = new Date(weatherData[i].dt_txt).getDay();
+            let minTempOfDay = weatherData[i].main.temp_min;
+            let maxTempOfDay = weatherData[i].main.temp_max;
+            let iconOfDay = weatherData[i].weather[0].main;
 
-          // Vergleichen der Wochentage
-          if (apiDate !== today) {
-            let dayOfWeek = daysOfWeek[apiDate];
-            // Überprüfen, ob bereits ein Eintrag für diesen Wochentag im Objekt existiert
-            if (!tempsByDay[dayOfWeek]) {
-              tempsByDay[dayOfWeek] = { min: [], max: [], icon: [] };
-            }
-            // Mindest- und Maximaltemperatur sowie das Icon zum entsprechenden Tag hinzufügen
-            tempsByDay[dayOfWeek].min.push(minTempOfDay);
-            tempsByDay[dayOfWeek].max.push(maxTempOfDay);
-            tempsByDay[dayOfWeek].icon.push(iconOfDay);
-          }
-        }
-
-        // Daten für die nächsten Tage zusammenstellen
-        const nextDays = [];
-        for (let day in tempsByDay) {
-          let minTemp = tempsByDay[day].min[0];
-          let maxTemp = tempsByDay[day].max[0];
-          let icon = Cloudy; // Standardwert
-
-          // Mindest- und Maximaltemperatur für den Tag berechnen
-          for (let i = 0; i < tempsByDay[day].min.length; i++) {
-            if (tempsByDay[day].min[i] < minTemp) {
-              minTemp = tempsByDay[day].min[i];
-            }
-            if (tempsByDay[day].max[i] > maxTemp) {
-              maxTemp = tempsByDay[day].max[i];
+            // Vergleichen der Wochentage
+            if (apiDate !== today) {
+              let dayOfWeek = daysOfWeek[apiDate];
+              // Überprüfen, ob bereits ein Eintrag für diesen Wochentag im Objekt existiert
+              if (!tempsByDay[dayOfWeek]) {
+                tempsByDay[dayOfWeek] = { min: [], max: [], icon: [] };
+              }
+              // Mindest- und Maximaltemperatur sowie das Icon zum entsprechenden Tag hinzufügen
+              tempsByDay[dayOfWeek].min.push(minTempOfDay);
+              tempsByDay[dayOfWeek].max.push(maxTempOfDay);
+              tempsByDay[dayOfWeek].icon.push(iconOfDay);
             }
           }
 
-          // Icon auswählen basierend auf dem häufigsten Wetter
-          let weatherCount = {};
-          // Durchlaufen der Liste der Wettersymbole des Tages und Zählen der Häufigkeit jedes Wettersymbols
-          tempsByDay[day].icon.forEach((weather) => {
-            if (weatherCount[weather]) {
-              weatherCount[weather] += 1; // erhöhe seinen Zähler um 1
-            } else {
-              weatherCount[weather] = 1; // oder wenn Symbol zu ersten mal -> setze seinen Zähler auf 1
+          // Daten für die nächsten Tage zusammenstellen
+          const nextDays = [];
+          for (let day in tempsByDay) {
+            let minTemp = tempsByDay[day].min[0];
+            let maxTemp = tempsByDay[day].max[0];
+            let icon = Cloudy; // Standardwert
+
+            // Mindest- und Maximaltemperatur für den Tag berechnen
+            for (let i = 0; i < tempsByDay[day].min.length; i++) {
+              if (tempsByDay[day].min[i] < minTemp) {
+                minTemp = tempsByDay[day].min[i];
+              }
+              if (tempsByDay[day].max[i] > maxTemp) {
+                maxTemp = tempsByDay[day].max[i];
+              }
             }
-          });
-          let maxCount = 0;
-          //console.log(weatherCount);
-          let mostCommonWeather = null;
-          for (let weather in weatherCount) {
-            if (weatherCount[weather] > maxCount) {
-              maxCount = weatherCount[weather];
-              mostCommonWeather = weather;
+
+            // Icon auswählen basierend auf dem häufigsten Wetter
+            let weatherCount = {};
+            // Durchlaufen der Liste der Wettersymbole des Tages und Zählen der Häufigkeit jedes Wettersymbols
+            tempsByDay[day].icon.forEach((weather) => {
+              if (weatherCount[weather]) {
+                weatherCount[weather] += 1; // erhöhe seinen Zähler um 1
+              } else {
+                weatherCount[weather] = 1; // oder wenn Symbol zu ersten mal -> setze seinen Zähler auf 1
+              }
+            });
+            let maxCount = 0;
+            //console.log(weatherCount);
+            let mostCommonWeather = null;
+            for (let weather in weatherCount) {
+              if (weatherCount[weather] > maxCount) {
+                maxCount = weatherCount[weather];
+                mostCommonWeather = weather;
+              }
             }
+            icon = getWeatherIcon(mostCommonWeather);
+
+            nextDays.push({
+              name: day,
+              minTemp: minTemp,
+              maxTemp: maxTemp,
+              icon: icon,
+            });
           }
-          icon = getWeatherIcon(mostCommonWeather);
 
-          nextDays.push({
-            name: day,
-            minTemp: minTemp,
-            maxTemp: maxTemp,
-            icon: icon,
-          });
-        }
-
-        // Setzen der Zustände für die Wetterdaten der nächsten Tage
-        setNextDaysWeather(nextDays);
+          // Setzen der Zustände für die Wetterdaten der nächsten Tage
+          setNextDaysWeather(nextDays);
+        } // schließt die Bedingung if (cityName)
       } catch (error) {
         console.error("Fehler beim Abrufen der Wetterdaten:", error);
       }
