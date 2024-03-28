@@ -17,7 +17,7 @@ import Details from "./Details";
 function Home() {
   const { REACT_APP_API_KEY } = process.env;
 
-  // Zustände für die Wetterdaten, die Eingabestadt und Fehlermeldungen
+  // Zustände für die Wetterdate
   const [data, setData] = useState({
     celsius: 10,
     name: "Suche Stadt...",
@@ -31,7 +31,10 @@ function Home() {
     min_temp: "",
     max_temp: "",
   });
+
+  // Zustand der eigegebenen Stadt
   const [name, setName] = useState("");
+  // Fehlermeldungen
   const [error, setError] = useState("");
   // Zustand, um zu überprüfen, ob es Nacht ist
   const [isNight, setIsNight] = useState(false);
@@ -45,7 +48,7 @@ function Home() {
     if (!cityFetched && name === "") {
       navigator.geolocation.getCurrentPosition(zeigePosition);
     }
-  }, [name, cityFetched]);
+  });
 
   // Effekt, um die Geolokalisierung basierend auf isNight zu aktualisieren
   useEffect(() => {
@@ -66,7 +69,7 @@ function Home() {
       .then((res) => {
         const cityName = res.data[0].name;
         setCityName(cityName);
-        fetchData(cityName);
+        fetchData(cityName); // aus geolocation
         setCityFetched(true);
       })
       .catch((err) => {
@@ -89,7 +92,6 @@ function Home() {
         let imagePath = "";
 
         // Bestimmung von Tag oder Nacht
-
         const sunriseTime = res.data.sys.sunrise;
         const sunsetTime = res.data.sys.sunset;
         let currentTime = Math.floor(Date.now() / 1000);
@@ -151,6 +153,7 @@ function Home() {
           max_temp: res.data.main.temp_max,
         });
         setError("");
+        setCityFetched(true); // Setze cityFetched auf true, da die Stadt erfolgreich abgerufen wurde
       })
       .catch((err) => {
         if (err.response.status === 404) {
@@ -166,6 +169,8 @@ function Home() {
     setCityFetched(false); // Setzen des Zustands, um sicherzustellen, dass die Geolokalisierung erneut durchgeführt wird
     if (name !== "") {
       fetchData(name);
+      setCityName(name);
+      //console.log("name, manuell:" + name);
     }
   };
 
@@ -233,7 +238,7 @@ function Home() {
                 </div>
               </div>
             </div>
-            <Details cityName={cityName} />
+            <Details key={cityName} cityName={cityName} />
           </div>
           <div className="copyright-mobil">
             <a

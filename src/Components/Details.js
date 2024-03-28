@@ -31,6 +31,7 @@ function Details({ cityName }) {
           `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${REACT_APP_API_KEY}&units=metric&lang=de`
         );
         const weatherData = response.data.list;
+        // console.log("details API: " + cityName);
 
         // Durchlaufen der Wetterdaten und Sammeln nach Tag
         for (let i = 0; i < weatherData.length; i++) {
@@ -107,7 +108,12 @@ function Details({ cityName }) {
     };
 
     fetchData();
-  }, [cityName, today]);
+  }, []);
+
+  // Überprüfen Sie die Stadtänderung
+  useEffect(() => {
+    //console.log("Neuer Stadtnamen:", cityName);
+  }, [cityName]);
 
   // Funktion zum Zuweisen des Icons basierend auf dem Wetter
   const getWeatherIcon = (weather) => {
