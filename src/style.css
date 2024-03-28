@@ -152,6 +152,13 @@ h3 {
   padding: 20px;
 }
 
+.day {
+  width: 24px;
+}
+
+.temp {
+  width: 36px;
+}
 .devider_forcast {
   margin: 0 20px;
   border-bottom: 0.1px solid rgba(255, 255, 255, 0.2);

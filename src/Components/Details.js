@@ -144,14 +144,14 @@ function Details({ cityName }) {
             {nextDaysWeather.map((day, index) => (
               <div key={index}>
                 <div className="forecast_row">
-                  <p>{day.name}</p>
+                  <p className="day">{day.name}</p>
                   <img
                     className="forecast_icon"
                     src={day.icon}
                     alt="wetter icon"
                   />
-                  <p className="minTemp">{Math.round(day.minTemp)}°C</p>
-                  <p>{Math.round(day.maxTemp)}°C</p>
+                  <p className="minTemp temp">{Math.round(day.minTemp)}°C</p>
+                  <p className="temp">{Math.round(day.maxTemp)}°C</p>
                 </div>
                 {index !== nextDaysWeather.length - 1 && (
                   <div className="devider_forcast"></div>

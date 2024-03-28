@@ -20,7 +20,7 @@ function Home() {
   // Zustände für die Wetterdate
   const [data, setData] = useState({
     celsius: 10,
-    name: "Suche Stadt...",
+    name: "",
     humidity: 10,
     speed: 2,
     image: Cloud,
@@ -42,20 +42,6 @@ function Home() {
   const [cityFetched, setCityFetched] = useState(false);
   // Neuer Zustand für die Stadt
   const [cityName, setCityName] = useState("");
-
-  // Effekt, um die Geolokalisierung auszuführen, wenn keine Stadt abgerufen wurde
-  useEffect(() => {
-    if (!cityFetched && name === "") {
-      navigator.geolocation.getCurrentPosition(zeigePosition);
-    }
-  });
-
-  // Effekt, um die Geolokalisierung basierend auf isNight zu aktualisieren
-  useEffect(() => {
-    if (cityFetched) {
-      fetchData(data.name); //  API Aufruf für die Stadt, die bereits abgerufen wurde
-    }
-  }, [isNight]);
 
   // Funktion zur Verarbeitung der Geolokalisierungsdaten
   function zeigePosition(position) {
@@ -163,6 +149,20 @@ function Home() {
         }
       });
   }
+
+  // Effekt, um die Geolokalisierung auszuführen, wenn keine Stadt abgerufen wurde
+  useEffect(() => {
+    if (!cityFetched && name === "") {
+      navigator.geolocation.getCurrentPosition(zeigePosition);
+    }
+  });
+
+  // Effekt, um die Geolokalisierung basierend auf isNight zu aktualisieren
+  useEffect(() => {
+    if (cityFetched) {
+      fetchData(data.name); //  API Aufruf für die Stadt, die bereits abgerufen wurde
+    }
+  }, [isNight]);
 
   const handleClick = () => {
     setCityFetched(false); // Setzen des Zustands, um sicherzustellen, dass die Geolokalisierung erneut durchgeführt wird
