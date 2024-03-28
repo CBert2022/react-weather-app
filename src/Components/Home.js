@@ -164,7 +164,6 @@ function Home() {
       });
   }
 
-  // Funktion zum Verarbeiten von Klickereignissen
   const handleClick = () => {
     setCityFetched(false); // Setzen des Zustands, um sicherzustellen, dass die Geolokalisierung erneut durchgeführt wird
     if (name !== "") {
@@ -174,84 +173,168 @@ function Home() {
     }
   };
 
-  // Rückgabe der JSX-Struktur der Home-Komponente
-  return (
-    <>
-      <div className="container">
-        <div className="current_lo"></div>
-        <div id="night_shift" className="weather">
-          <div className="search">
-            <input
-              id="input"
-              type="text"
-              placeholder="Enter City Name"
-              onChange={(e) => setName(e.target.value)}
-            />
-            <button onClick={handleClick}>
-              <i className="fa-solid fa-magnifying-glass"></i>
-            </button>
-          </div>
-          <div className="winfo">
-            <div className="error">
-              <p>{error}</p>
+  if (cityName) {
+    return (
+      <>
+        <div className="container">
+          <div className="current_lo"></div>
+          <div id="night_shift" className="weather">
+            <div className="search">
+              <input
+                id="input"
+                type="text"
+                placeholder="Enter City Name"
+                onChange={(e) => setName(e.target.value)}
+              />
+              <button onClick={handleClick}>
+                <i className="fa-solid fa-magnifying-glass"></i>
+              </button>
             </div>
-            <img className="main_img" src={data.image} alt="cloud" />
-            <h1>{Math.round(data.celsius)}°C</h1>
-            <h2>{data.name}</h2>
-            <p className="description">{data.description}</p>
-            <div className="container_temp_infos">
-              <div className="details">
-                <div className="col">
-                  <div>
-                    <img src={Feel} alt="humidity" />
+            <div className="winfo">
+              <div className="error">
+                <p>{error}</p>
+              </div>
+              <img className="main_img" src={data.image} alt="cloud" />
+              <h1>{Math.round(data.celsius)}°C</h1>
+              <h2>{data.name}</h2>
+              <p className="description">{data.description}</p>
+              <div className="container_temp_infos">
+                <div className="details">
+                  <div className="col">
+                    <div>
+                      <img src={Feel} alt="humidity" />
+                    </div>
+                    <div>
+                      <p>{Math.round(data.feel)}°C</p>
+                      <p>Gefühlt wie</p>
+                    </div>
                   </div>
-                  <div>
-                    <p>{Math.round(data.feel)}°C</p>
-                    <p>Gefühlt wie</p>
+                  <div className="col">
+                    <div className="temps">
+                      <p className="minTemp">
+                        min {Math.round(data.min_temp)}°C
+                      </p>{" "}
+                      <p>max {Math.round(data.max_temp)}°C</p>
+                    </div>
                   </div>
                 </div>
-                <div className="col">
-                  <div className="temps">
-                    <p className="minTemp">min {Math.round(data.min_temp)}°C</p>{" "}
-                    <p>max {Math.round(data.max_temp)}°C</p>
+                <div className="details">
+                  <div className="col">
+                    <div>
+                      <img src={Humidity} alt="feels like" />
+                    </div>
+                    <div>
+                      <p>{Math.round(data.humidity)}%</p>
+                      <p>Luftfeuchtigkeit</p>
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div>
+                      <img src={Wind} alt="wind" />
+                    </div>
+                    <div>
+                      <p>{Math.round(data.speed)}km/h</p>
+                      <p>Wind</p>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="details">
-                <div className="col">
-                  <div>
-                    <img src={Humidity} alt="feels like" />
-                  </div>
-                  <div>
-                    <p>{Math.round(data.humidity)}%</p>
-                    <p>Luftfeuchtigkeit</p>
-                  </div>
-                </div>
-                <div className="col">
-                  <div>
-                    <img src={Wind} alt="wind" />
-                  </div>
-                  <div>
-                    <p>{Math.round(data.speed)}km/h</p>
-                    <p>Wind</p>
-                  </div>
-                </div>
-              </div>
+              <Details key={cityName} cityName={cityName} />
             </div>
-            <Details key={cityName} cityName={cityName} />
-          </div>
-          <div className="copyright-mobil">
-            <a
-              href="https://www.flaticon.com/free-icons/weather"
-              title="weather icons"
-            >
-              Weather icons created by iconixar - Flaticon
-            </a>
+            <div className="copyright-mobil">
+              <a
+                href="https://www.flaticon.com/free-icons/weather"
+                title="weather icons"
+              >
+                Weather icons created by iconixar - Flaticon
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div className="container">
+          <div className="current_lo"></div>
+          <div id="night_shift" className="weather">
+            <div className="search">
+              <input
+                id="input"
+                type="text"
+                placeholder="Enter City Name"
+                onChange={(e) => setName(e.target.value)}
+              />
+              <button onClick={handleClick}>
+                <i className="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </div>
+            <div className="winfo">
+              <div className="error">
+                <p>{error}</p>
+              </div>
+              <img className="main_img" src={data.image} alt="cloud" />{" "}
+              <div className="spinner-container">
+                <div className="spinner"></div>
+              </div>
+              <p className="description">{data.description}</p>
+              <div className="container_temp_infos">
+                <div className="details">
+                  <div className="col">
+                    <div>
+                      <img src={Feel} alt="humidity" />
+                    </div>
+                    <div>
+                      <p>{Math.round(data.feel)}°C</p>
+                      <p>Gefühlt wie</p>
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className="temps">
+                      <p className="minTemp">
+                        min {Math.round(data.min_temp)}°C
+                      </p>{" "}
+                      <p>max {Math.round(data.max_temp)}°C</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="details">
+                  <div className="col">
+                    <div>
+                      <img src={Humidity} alt="feels like" />
+                    </div>
+                    <div>
+                      <p>{Math.round(data.humidity)}%</p>
+                      <p>Luftfeuchtigkeit</p>
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div>
+                      <img src={Wind} alt="wind" />
+                    </div>
+                    <div>
+                      <p>{Math.round(data.speed)}km/h</p>
+                      <p>Wind</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <Details key={cityName} cityName={cityName} />
+            </div>
+            <div className="copyright-mobil">
+              <a
+                href="https://www.flaticon.com/free-icons/weather"
+                title="weather icons"
+              >
+                Weather icons created by iconixar - Flaticon
+              </a>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
 }
 
 export default Home;

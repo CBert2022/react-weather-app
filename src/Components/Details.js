@@ -135,32 +135,42 @@ function Details({ cityName }) {
     }
   };
 
-  return (
-    <>
-      <div className="container_temp_infos">
-        <h3>5-Tage-Vorhersage</h3>
-        <div className="container_forecast">
-          {nextDaysWeather.map((day, index) => (
-            <div key={index}>
-              <div className="forecast_row">
-                <p>{day.name}</p>
-                <img
-                  className="forecast_icon"
-                  src={day.icon}
-                  alt="wetter icon"
-                />
-                <p className="minTemp">{Math.round(day.minTemp)}°C</p>
-                <p>{Math.round(day.maxTemp)}°C</p>
+  if (cityName) {
+    return (
+      <>
+        <div className="container_temp_infos">
+          <h3>5-Tage-Vorhersage</h3>
+          <div className="container_forecast">
+            {nextDaysWeather.map((day, index) => (
+              <div key={index}>
+                <div className="forecast_row">
+                  <p>{day.name}</p>
+                  <img
+                    className="forecast_icon"
+                    src={day.icon}
+                    alt="wetter icon"
+                  />
+                  <p className="minTemp">{Math.round(day.minTemp)}°C</p>
+                  <p>{Math.round(day.maxTemp)}°C</p>
+                </div>
+                {index !== nextDaysWeather.length - 1 && (
+                  <div className="devider_forcast"></div>
+                )}
               </div>
-              {index !== nextDaysWeather.length - 1 && (
-                <div className="devider_forcast"></div>
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div className="spinner-container">
+          <div className="spinner"></div>
+        </div>
+      </>
+    );
+  }
 }
 
 export default Details;

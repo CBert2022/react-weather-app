@@ -163,6 +163,34 @@ h3 {
   margin-top: 0 !important;
 }
 
+/* Spinner */
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #4343de;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 5px solid rgba(255, 255, 255, 0.5);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 500px) {
   .container {
     padding: 0;
