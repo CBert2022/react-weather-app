@@ -1,12 +1,15 @@
 # React Weather App
 
 ## Work in progress, next steps:
-- more detailed data on click
+- Promise for 2. API call
+- Spinner
 
 ## Requirements
 A simple Weather App where the User can enter a name of a City and will see depending on information from OpenWeather:
 
 - user sees initial weather data from own geolocation
+- user can search cities
+- user sees 5-day-forecast depending on geolocation or search city
 - temperature
 - humidity
 - wind speed
@@ -27,9 +30,11 @@ https://www.flaticon.com/free-icons/weather
 
 
 ## Screenshot
-![Bildschirm­foto 2024-02-11 um 21 57 13](https://github.com/CBert2022/react-weather-app/assets/110911202/58608368-84e6-464c-8c66-b2cccae32f14)
+### Day
+![cbert2022 github io_react-weather-app_](https://github.com/CBert2022/react-weather-app/assets/110911202/5cdfbc9e-8c83-4dc6-851f-932af9374920)
 
-![Bildschirm­foto 2024-03-05 um 20 47 50](https://github.com/CBert2022/react-weather-app/assets/110911202/979d1355-713f-4597-b1bf-932c7d3aea98)
+### Night
+![cbert2022 github io_react-weather-app_ (1)](https://github.com/CBert2022/react-weather-app/assets/110911202/5dda5bbc-4fe7-432c-82d8-7acb76eab4ea)
 
 
 
