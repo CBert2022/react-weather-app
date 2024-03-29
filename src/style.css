@@ -134,7 +134,11 @@ body {
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+}
+
+.container_temp_infos > div.details:nth-child(1) {
+  padding-bottom: 0;
 }
 
 /* Forecast */
@@ -168,6 +172,30 @@ h3 {
   width: 30px !important;
   height: 30px !important;
   margin-top: 0 !important;
+}
+
+/* Same day forecast */
+.daily_forecast_row {
+  display: flex;
+  overflow: scroll;
+  margin: 20px;
+}
+.daily_forecast_item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.daily_forecast_icon {
+  width: 30px !important;
+  height: 30px !important;
+  margin-bottom: 10px;
+}
+
+.daily_forecast_time {
+  margin-bottom: 10px;
 }
 
 /* Spinner */

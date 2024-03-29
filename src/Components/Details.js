@@ -21,6 +21,9 @@ function Details({ cityName }) {
   // Objekt zum Sammeln der Mindest- und Maximaltemperaturen für jeden Tag
   let tempsByDay = {};
 
+  // Zustände für die Wetterdaten des Tage
+  const [sameDayForecast, setSameDayForecast] = useState([]);
+
   // Zustände für die Wetterdaten der nächsten Tage
   const [nextDaysWeather, setNextDaysWeather] = useState([]);
 
@@ -33,8 +36,23 @@ function Details({ cityName }) {
             `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${REACT_APP_API_KEY}&units=metric&lang=de`
           );
           const weatherData = response.data.list;
-          // console.log("details API: " + cityName);
+          console.log(response.data.list[0].weather[0].main);
+          const sameDayForecast = [];
 
+          //SAME DAY FORECAST
+          // Durchlaufen der Wetterdaten und Sammeln der Temp Vorhersagen alle 3h
+          for (let i = 0; i < 7; i++) {
+            let temp = weatherData[i].main.temp;
+            // String Datum zu Date Objekt umwandeln
+            let time = new Date(weatherData[i].dt_txt).getHours();
+            let iconOfDay = getWeatherIcon(weatherData[i].weather[0].main); // Verwendung von getWeatherIcon, um das Icon basierend auf dem Wetterstatus zu erhalten
+            let data = { temp, time, iconOfDay };
+            sameDayForecast.push(data);
+          }
+          setSameDayForecast(sameDayForecast);
+          console.log(sameDayForecast);
+
+          //5-DAY FORECAST
           // Durchlaufen der Wetterdaten und Sammeln nach Tag
           for (let i = 0; i < weatherData.length; i++) {
             let apiDate = new Date(weatherData[i].dt_txt).getDay();
@@ -141,6 +159,24 @@ function Details({ cityName }) {
   if (cityName) {
     return (
       <>
+        <div className="container_temp_infos">
+          <div className="daily_forecast_row">
+            {sameDayForecast.map((day, index) => (
+              <div key={index}>
+                <div className="daily_forecast_item">
+                  <p className="daily_forecast_time">{day.time}&nbsp;Uhr</p>
+                  <img
+                    className="daily_forecast_icon"
+                    src={day.iconOfDay}
+                    alt="wetter icon"
+                  />
+                  <p className="minTemp temp">{Math.round(day.temp)}°C</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="container_temp_infos">
           <h3>5-Tage-Vorhersage</h3>
           <div className="container_forecast">
