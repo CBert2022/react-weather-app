@@ -3,9 +3,11 @@
 ## Requirements
 A simple Weather App where the User can enter a name of a City and will see depending on information from OpenWeather:
 
-- user sees initial weather data from own geolocation
+- user sees:
+- initial weather data from own geolocation
+- forecast in 3-hour intervals
+- 5-day-forecast depending on geolocation or search city
 - user can search cities
-- user sees 5-day-forecast depending on geolocation or search city
 - temperature
 - humidity
 - wind speed
