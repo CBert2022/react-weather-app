@@ -29,10 +29,12 @@ https://www.flaticon.com/free-icons/weather
 
 ## Screenshot
 ### Day
-![cbert2022 github io_react-weather-app_](https://github.com/CBert2022/react-weather-app/assets/110911202/5cdfbc9e-8c83-4dc6-851f-932af9374920)
+![cbert2022 github io_react-weather-app_ (4)](https://github.com/CBert2022/react-weather-app/assets/110911202/720658dc-cc2a-42a6-ae5b-d39457b57f8e)
 
 ### Night
-![cbert2022 github io_react-weather-app_ (3)](https://github.com/CBert2022/react-weather-app/assets/110911202/229e6335-915a-4e39-adc8-17a3620be514)
+![cbert2022 github io_react-weather-app_ (5)](https://github.com/CBert2022/react-weather-app/assets/110911202/f81c0c04-f063-4c29-8d3b-80dd25030bac)
+
+
 
 
 
